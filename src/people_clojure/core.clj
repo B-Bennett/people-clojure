@@ -1,6 +1,7 @@
 (ns people-clojure.core
   (:require [clojure.string :as str]
-            [clojure.walk :as walk])
+            [clojure.walk :as walk]
+            [clojure.pprint :as pprint])
   (:gen-class))
 
 (defn -main [& args]
@@ -22,5 +23,5 @@
                         (= "Brazil" (:country line)))
                       people)]
    (spit "filtered_people.edn"
-         (pr-str people))))
+         (with-out-str (pprint/pprint people)))))
 
