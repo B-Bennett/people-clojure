@@ -27,6 +27,15 @@
         (with-out-str (pprint/pprint people)))
   people))
 
+(defn  people-html []
+  (let [people (read-people)]
+    (map (fn [line]
+           [:p
+            (str (:first_name line)
+                 "  "
+                 (:last_name line))])
+         people)))
+
 (defn handler [request]
   {:status  200
    :headers {"Content-Type" "text/html"}
@@ -35,14 +44,7 @@
                       [:a {:href "http://www.theironyard.com"}
                        "The Iron Yard"]
                       [:br]
-                      (let [people (read-people)]
-                        (map (fn [line]
-                               [:p
-                                (str (:first_name line)
-                                     "  "
-                                     (:last_name line))])
-                             people))]])})
-
+                      (people-html)]])})
 (defn -main [& args]
  (j/run-jetty #'handler {:port 3000 :join? false}))
 
